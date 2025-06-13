@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_project/Ui/home/Taps/introduction_screen/onbording_screen%205.dart';
+import 'package:movies_project/Ui/home/Taps/Authentication/login_Screen.dart';
 import 'package:movies_project/Utils/App%20Assets.dart';
 import 'package:movies_project/Utils/App%20Colors.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
@@ -57,7 +58,7 @@ class OnboardingScreen6 extends StatelessWidget {
                     child: Text('Finish',
                   style: AppStyles.semi20Black,) , 
                   onPressed: () {
-                    
+                    Navigator.of(context).pushNamed(LoginScreen.routeName);
                   }, ),
                 ),
                 SizedBox(height: height * 0.001,),
