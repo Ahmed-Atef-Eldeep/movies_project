@@ -28,47 +28,49 @@ class ForgotPasswordScreen extends StatelessWidget {
         ),
         backgroundColor: AppColors.BlackColor,
       ),
-      body:  Column(
-        children: [
-          Image.asset(AppAssets.forgotpassword),
-          SizedBox(height: height * 0.04),
-          Padding(
-            padding:  EdgeInsets.symmetric(horizontal: width * 0.02),
-            child: TextFormField(
-                  controller: emailController,
-                  style: AppStyles.semi16White,
-                  decoration: InputDecoration(
-                    prefixIcon: Image.asset(AppAssets.Emailicon),
-                    hintText: AppLocalizations.of(context)!.email,
-                    hintStyle: AppStyles.semi16White,
-                    filled: true,
-                    fillColor: AppColors.BlackBgColor,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
+      body:  SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.asset(AppAssets.forgotpassword),
+            SizedBox(height: height * 0.04),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: width * 0.02),
+              child: TextFormField(
+                    controller: emailController,
+                    style: AppStyles.semi16White,
+                    decoration: InputDecoration(
+                      prefixIcon: Image.asset(AppAssets.Emailicon),
+                      hintText: AppLocalizations.of(context)!.email,
+                      hintStyle: AppStyles.semi16White,
+                      filled: true,
+                      fillColor: AppColors.BlackBgColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
+                    validator: (text){},
                   ),
-                  validator: (text){},
+            ),
+            SizedBox(height: height * 0.03),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.02),
+              child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(AppLocalizations.of(context)!.verify_email ,
+                  style: AppStyles.semi20Black,),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    minimumSize: Size(width, height * 0.07),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  )
                 ),
-          ),
-          SizedBox(height: height * 0.03),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.02),
-            child: ElevatedButton(
-                onPressed: () {},
-                child: Text(AppLocalizations.of(context)!.verify_email ,
-                style: AppStyles.semi20Black,),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  minimumSize: Size(width, height * 0.07),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                )
-              ),
-          ),
-      
-        ],
+            ),
+        
+          ],
+        ),
       ) ,
       );
   }
