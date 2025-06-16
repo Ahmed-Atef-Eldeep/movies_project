@@ -11,6 +11,20 @@ class AppAssets {
   static const String Passwordicon = "assets/images/pass.png";
   static const String Nameicon = "assets/images/icon name.png";
   static const String phoneicon = "assets/images/icon phone.png";
+  static const String BackBgHome = "assets/images/back_Bg_home.png";
+  static const String BackHome = "assets/images/image_back_home.png";
+  static const String WatchNow = "assets/images/Watch Now.png";
+  static const String AvailableNow = "assets/images/Available Now.png";
+  static const String imagefilme1 = "assets/images/image_filme1.png";
+  static const String imagefilme2 = "assets/images/image_filme2.png";
+  static const String imagefilme3 = "assets/images/image_filme3.png";
+  static const String imageaction1 = "assets/images/image_action1.png";
+  static const String imageaction2 = "assets/images/image_action2.png";
+  static const String imageaction3 = "assets/images/image_action3.png";
+  static const String imageempty = "assets/images/Empty 1.png";
+  static const String actionBG1 = "assets/images/action_bg_1.png";
+  static const String actionBG2 = "assets/images/action_bg_2.png";
+
   static const String Vector1 = "assets/images/AV1.png";
   static const String Vector2 = "assets/images/AV2.png";
   static const String Vector3 = "assets/images/AV3.png";
@@ -27,7 +41,7 @@ class AppAssets {
   static const String forgotpassword = "assets/images/Forgot password.png";
   static const String hometab = "assets/images/home_tab.png";
   static const String browsetab = "assets/images/browse_tab.png";
-  static const String profiletab = "assets/images/profile_tab.png";
+  static const String profiletab = "assets/images/Profile_tab.png";
   static const String searchtab = "assets/images/search_tab.png";
 
 

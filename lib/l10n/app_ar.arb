@@ -19,5 +19,9 @@
     "edit_profile":"تعديل الملف الشخصي",
     "exit":"خروج",
     "watch_list":"قائمة المشاهدة",
-    "history":"السجل"
+    "history":"السجل",
+    "action":"إجراء",
+    "seemore":"عرض المزيد",
+    "search":"بحث",
+    "wishlist":"قائمة الرغبات"
 }

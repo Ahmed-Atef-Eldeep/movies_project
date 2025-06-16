@@ -19,6 +19,10 @@
     "edit_profile":"Edit Profile",
     "exit":"Exit",
     "watch_list":"Watch List",
-    "history":"History"
-    
+    "history":"History",
+    "action":"Action",
+    "seemore":"See More",
+    "search":"Search",
+    "wishlist":"Wish List"
+
 }
