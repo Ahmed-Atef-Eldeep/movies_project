@@ -1,16 +1,53 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:movies_project/Utils/App%20Assets.dart';
 import 'package:movies_project/Utils/App%20Colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
+
+import 'GenreSectionWidget.dart';
+import 'browse_tab.dart';
 class HomeTab extends StatelessWidget {
   static const String routeName = 'homeTab';
-  const HomeTab({super.key});
+  List<String> genres = [
+    'Action',
+    'Adventure',
+    'Animation',
+    'Biography',
+    'Comedy',
+    'Crime',
+    'Documentary',
+    'Drama',
+    'Family',
+    'Fantasy',
+    'Film-Noir',
+    'Game-Show',
+    'History',
+    'Horror',
+    'Music',
+    'Musical',
+    'Mystery',
+    'News',
+    'Reality-TV',
+    'Romance',
+    'Sci-Fi',
+    'Short',
+    'Sport',
+    'Talk-Show',
+    'Thriller',
+    'War',
+    'Western',
+  ];
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+
+    final List<String> shuffledGenres = List.of(genres)..shuffle(Random());
+    final List<String> selectedGenres = shuffledGenres.take(3).toList();
+
     return Scaffold(
     backgroundColor: AppColors.BlackColor,
       body:
@@ -46,39 +83,27 @@ class HomeTab extends StatelessWidget {
                 )
               ],
                    ),
-                   
-                   Padding(
-                     padding:  EdgeInsets.only(left: width * 0.02, right: width * 0.01),
-                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(AppLocalizations.of(context)!.action,
-                        style: AppStyles.semi20White,),
-                        TextButton(
-                          onPressed: (){}, 
-                          child: Row(
-                            
-                            children: [
-                              Text(AppLocalizations.of(context)!.seemore, style: AppStyles.semi16Primary,),
-                              Icon(Icons.arrow_forward_outlined, color: AppColors.primaryColor, size: 16,),
-                            ],
-                          ))
-                      ],
-                     ),
-                   ),
-                    SizedBox(height: height * 0.01),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          SizedBox(width: width * 0.03),
-                          Image.asset(AppAssets.imageaction1),
-                          SizedBox(width: width * 0.03),
-                          Image.asset(AppAssets.imageaction2),
-                          SizedBox(width: width * 0.03),
-                          Image.asset(AppAssets.imageaction3),
-                        ],),
-                    )
+
+             Column(
+               children: selectedGenres.map((genre) {
+                 return GenreSection(
+                   genre: genre,
+                   title: genre,
+                     onSeeMore: () {
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) => BrowseTab(genre: genre),
+                         ),
+                       );
+                     }
+                 );
+               }).toList(),
+             )
+
+
+
+
            ],
          ),
        ),
