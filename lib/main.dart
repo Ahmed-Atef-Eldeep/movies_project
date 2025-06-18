@@ -15,6 +15,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movies_project/Ui/home/Taps/profile/home_profile_tab.dart';
 import 'package:provider/provider.dart';
 
+import 'Ui/home/Taps/bottom_navigation_bar/movie_details.dart';
+
 void main() {
   runApp( ChangeNotifierProvider(
     create: (context) => LanguageProvider(),
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
         ForgotPasswordScreen.routeName: (context) =>  ForgotPasswordScreen(),
         HomeProfileTab.routeName: (context) =>  HomeProfileTab(),
         HomeScreen.routeName: (context) =>  HomeScreen(),
+        MovieDetails.routeName: (context) =>  MovieDetails(),
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

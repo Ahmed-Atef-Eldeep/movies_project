@@ -28,4 +28,26 @@ class ApiManager {
       return null;
     }
   }
+
+  static Future<MovieResponse?> getSearchedMovies(
+      {String? searchedText}) async {
+    Uri url = Uri.https(
+      ApiConstants.baseUrl,
+      endPoints.movieList,
+      {'query_term': searchedText},
+    );
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+
+        return MovieResponse.fromJson(json);
+      } else {
+        print("Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Exception occurred: $e");
+    }
+  }
 }
