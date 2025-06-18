@@ -42,7 +42,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
+ features
       initialRoute: OnboardingScreen1.routeName,
+
+      initialRoute:HomeScreen.routeName,
+ main
       routes: {
         OnboardingScreen1.routeName: (context) => OnboardingScreen1(),
         OnboardingScreen2.routeName: (context) => OnboardingScreen2(),

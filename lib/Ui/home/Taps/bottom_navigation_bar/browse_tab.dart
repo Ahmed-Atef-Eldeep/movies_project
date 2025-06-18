@@ -1,55 +1,95 @@
 import 'package:flutter/material.dart';
-import 'package:movies_project/Utils/App%20Assets.dart';
 import 'package:movies_project/Utils/App%20Colors.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
+import '../../../../APIs/api_manager.dart';
+import '../../../../models/movieResponse.dart';
 
 class BrowseTab extends StatefulWidget {
   static const String routeName = 'browseTab';
-  BrowseTab({super.key});
+
+  final String genre  ;
+
+  const BrowseTab({super.key,  required this.genre});
 
   @override
   State<BrowseTab> createState() => _BrowseTabState();
 }
 
+
 class _BrowseTabState extends State<BrowseTab> {
-  List<String> categories = [
+  List<String> genres = [
     'Action',
     'Adventure',
     'Animation',
     'Biography',
+    'Comedy',
+    'Crime',
+    'Documentary',
+    'Drama',
+    'Family',
+    'Fantasy',
+    'Film-Noir',
+    'Game-Show',
+    'History',
+    'Horror',
+    'Music',
+    'Musical',
+    'Mystery',
+    'News',
+    'Reality-TV',
+    'Romance',
+    'Sci-Fi',
+    'Short',
+    'Sport',
+    'Talk-Show',
+    'Thriller',
+    'War',
+    'Western',
   ];
-  Map<String, List<String>> categoryFilmes = {
-    'Action': [
-      '${AppAssets.actionBG1}',
-      '${AppAssets.imagefilme2}',
-    ],
-    'Adventure': [
-      '${AppAssets.actionBG2}',
-      '${AppAssets.imagefilme1}',
-    ],
-    'Animation': [
-      '${AppAssets.imagefilme3}',
-      '${AppAssets.imageaction3}',
-    ],
-    'Biography': [
-      '${AppAssets.imageaction1}',
-      '${AppAssets.imageaction2}',
-    ],
-  };
 
   int selectedIndex = 0;
+  MovieResponse? movieResponse;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState() ;
+    selectedIndex = genres.indexOf(widget.genre );
+    fetchMoviesForSelectedGenre();
+
+  }
+
+  Future<void> fetchMoviesForSelectedGenre() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final response =
+      await ApiManager.getMovies(genre: genres[selectedIndex]);
+      setState(() {
+        movieResponse = response;
+        isLoading = false;
+      });
+    } catch (e) {
+      // handle error
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    String selctedCategory = categories[selectedIndex];
-    List<String> filmes = categoryFilmes[selctedCategory] ?? [];
+
     return Scaffold(
       backgroundColor: AppColors.BlackColor,
       body: Padding(
         padding: EdgeInsets.only(top: height * 0.05, left: width * 0.02),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               width: width * 0.98,
@@ -63,6 +103,7 @@ class _BrowseTabState extends State<BrowseTab> {
                         setState(() {
                           selectedIndex = index;
                         });
+                        fetchMoviesForSelectedGenre();
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: width * 0.02),
@@ -79,7 +120,7 @@ class _BrowseTabState extends State<BrowseTab> {
                         ),
                         child: Center(
                           child: Text(
-                            categories[index],
+                            genres[index],
                             style: AppStyles.semi20Black.copyWith(
                                 color: isSelected
                                     ? AppColors.BlackColor
@@ -89,32 +130,68 @@ class _BrowseTabState extends State<BrowseTab> {
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: width * 0.04,
-                    );
-                  },
-                  itemCount: categories.length),
+                  separatorBuilder: (context, index) =>
+                      SizedBox(width: width * 0.04),
+                  itemCount: genres.length),
             ),
-            SizedBox(
-              height: height * 0.02,
-            ),
+            SizedBox(height: height * 0.02),
             Expanded(
-              child: ListView.builder(
+              child: isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : movieResponse?.data?.movies == null ||
+                  movieResponse!.data!.movies!.isEmpty
+                  ? const Center(child: Text("No movies found"))
+                  : GridView.builder(
+                padding: EdgeInsets.only(right: 16),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.65,
+                ),
+                itemCount: movieResponse!.data!.movies!.length,
                 itemBuilder: (context, index) {
-                  return Image(image: AssetImage(filmes[index]),fit: BoxFit.cover,);
-                  // Container(
-                  //   width: width * 0.3,
-                  //   margin: EdgeInsets.only(right: width * 0.01),
-                  //   decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //       image: DecorationImage(
-                  //           image: AssetImage(filmes[index]), fit: BoxFit.cover)),
-                  // );
+                  final movie = movieResponse!.data!.movies![index];
+                  return Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(
+                          movie.largeCoverImage ?? '',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+
+                        ),
+                      ),
+                      Positioned(
+                        top: 8,
+                        left: 8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.star, color: Colors.yellow, size: 14),
+                              const SizedBox(width: 4),
+                              Text(
+                                movie.rating?.toStringAsFixed(1) ?? "N/A",
+                                style: const TextStyle(
+                                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
                 },
-                itemCount: filmes.length,
               ),
             )
+
           ],
         ),
       ),

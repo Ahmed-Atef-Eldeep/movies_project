@@ -20,7 +20,7 @@ class _HomeProfileTabState extends State<HomeProfileTab> {
   List<Widget> tabsBodyList = [
     HomeTab(),
     SearchTab(),
-    BrowseTab(),
+    BrowseTab(genre: "Action", ),
     ProfileTab(),
   ];
 
