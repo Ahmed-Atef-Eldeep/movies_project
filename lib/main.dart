@@ -16,6 +16,7 @@ import 'package:movies_project/Ui/home/Taps/profile/home_profile_tab.dart';
 import 'package:provider/provider.dart';
 
 import 'Ui/home/Taps/bottom_navigation_bar/movie_details.dart';
+import 'Ui/home/Taps/profile/update_profile_tab.dart';
 
 void main() {
   runApp( ChangeNotifierProvider(
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      initialRoute:HomeScreen.routeName,
+      initialRoute:MovieDetails.routeName,
       routes: {
         OnboardingScreen1.routeName: (context) =>  OnboardingScreen1(),
         OnboardingScreen2.routeName: (context) =>  OnboardingScreen2(),
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         HomeProfileTab.routeName: (context) =>  HomeProfileTab(),
         HomeScreen.routeName: (context) =>  HomeScreen(),
         MovieDetails.routeName: (context) =>  MovieDetails(),
+        UpdateProfileTab.routeName: (context) =>  UpdateProfileTab(),
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
