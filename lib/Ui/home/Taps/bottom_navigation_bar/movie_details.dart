@@ -3,14 +3,62 @@ import 'package:movies_project/Utils/App%20Assets.dart';
 import 'package:movies_project/Utils/App%20Colors.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-class MovieDetails extends StatelessWidget {
-  static const String routeName = 'movieDetails';
+import 'package:movies_project/models/movieSuggestionsResponse.dart';
 
+import '../../../../APIs/api_manager.dart';
+import '../../../../models/movieDetailsResponse.dart' as detail;
+import '../../../../models/movieResponse.dart';
+
+import 'package:movies_project/models/movieResponse.dart' ;
+import 'package:movies_project/models/movieSuggestionsResponse.dart' as suggest;
+class MovieDetails extends StatefulWidget {
+  static const String routeName = 'movieDetails';
+  final String movieId;
+
+  const MovieDetails({super.key, required this.movieId});
+  @override
+  State<MovieDetails> createState() => _MovieDetailsState();
+}
+
+class _MovieDetailsState extends State<MovieDetails> {
+
+  detail.Movie? movie;
+  bool isLoading = true;
+  List< suggest.Movies>? suggestedMovies;
+  bool isSuggestionsLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMovie();
+  }
+
+  void fetchMovie() async {
+    final movieId = widget.movieId ;
+    // final movieId = "658" ;
+    if (movieId != null) {
+      final response = await ApiManager.getMovieDetails(id: movieId);
+      final suggestions = await ApiManager.getMovieSuggestions(id: movieId);
+
+      setState(() {
+        movie = response?.data?.movie;
+        suggestedMovies = suggestions?.data?.movies ?? [];
+        isLoading = false;
+        isSuggestionsLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+    if (isLoading) {
+      return const Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(child: CircularProgressIndicator()),
 
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -30,7 +78,8 @@ class MovieDetails extends StatelessWidget {
                       colors: [const Color(0x33121312), const Color(0xFF121312)],
                     ),
                     image: DecorationImage(
-                      image: AssetImage(AppAssets.actionBG1), // Replace with your actual asset
+                     image: NetworkImage(movie?.mediumCoverImage ??"" ) ,
+                      // image: AssetImage(AppAssets.actionBG1),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -57,7 +106,7 @@ class MovieDetails extends StatelessWidget {
 
             SizedBox(height: 12),
             Text(
-              "Doctor Strange in the Multiverse of Madness",
+              movie?.title ?? "" ,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -66,7 +115,7 @@ class MovieDetails extends StatelessWidget {
               ),
             ),
             SizedBox(height: 4),
-            Text("2022", style: AppStyles.semi14White ),
+            Text(" ${movie?.year}", style: AppStyles.semi14White ),
 
 
             Padding(
@@ -94,57 +143,57 @@ class MovieDetails extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  StatItem(icon: Icons.favorite, label: "15"),
-                  StatItem(icon: Icons.access_time, label: "90"),
-                  StatItem(icon: Icons.star, label: "7.6"),
+                  StatItem(icon: Icons.favorite, label: "${movie?.likeCount}"),
+                  StatItem(icon: Icons.access_time, label: "${movie?.runtime}"),
+                  StatItem(icon: Icons.star, label: "${movie?.rating}"),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Screen Shots",
-                  style: AppStyles.semi24White,
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    AppAssets.screanShot1,
-                    width: width*0.9,
-                    height: height*0.15,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 12),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    AppAssets.screanShot1,
-                    width: width*0.9,
-                    height: height*0.15,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 12),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    AppAssets.screanShot1,
-                    width: width*0.9,
-                    height: height*0.15,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ) ,
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 16, top: 16),
+            //   child: Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Text(
+            //       "Screen Shots",
+            //       style: AppStyles.semi24White,
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(height: 8),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     ClipRRect(
+            //       borderRadius: BorderRadius.circular(12),
+            //       child: Image.asset(
+            //         AppAssets.screanShot1,
+            //         width: width*0.9,
+            //         height: height*0.15,
+            //         fit: BoxFit.cover,
+            //       ),
+            //     ),
+            //     SizedBox(height: 12),
+            //     ClipRRect(
+            //       borderRadius: BorderRadius.circular(12),
+            //       child: Image.asset(
+            //         AppAssets.screanShot1,
+            //         width: width*0.9,
+            //         height: height*0.15,
+            //         fit: BoxFit.cover,
+            //       ),
+            //     ),
+            //     SizedBox(height: 12),
+            //     ClipRRect(
+            //       borderRadius: BorderRadius.circular(12),
+            //       child: Image.asset(
+            //         AppAssets.screanShot1,
+            //         width: width*0.9,
+            //         height: height*0.15,
+            //         fit: BoxFit.cover,
+            //       ),
+            //     ),
+            //   ],
+            // ) ,
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 16),
               child: Align(
@@ -155,9 +204,20 @@ class MovieDetails extends StatelessWidget {
                 ),
               ),
             ),
+
+
             SizedBox(
               //height: height*0.8 , // Set appropriate height for 2 rows
-              child: GridView.builder(
+              child: suggestedMovies!.isEmpty ? Padding(
+                padding: const EdgeInsets.only(left: 16, top: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "No Movies Available",
+                    style: AppStyles.semi24White,
+                  ),
+                ),
+              )  : GridView.builder(
                 physics: const NeverScrollableScrollPhysics(), // prevent scroll if inside another scroll
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -167,18 +227,24 @@ class MovieDetails extends StatelessWidget {
                   crossAxisSpacing: 16,
                   childAspectRatio: 0.65,
                 ),
-                itemCount: 4,
+                itemCount: suggestedMovies?.length,
                 itemBuilder: (context, index) {
-                  return Stack(
+                  return  Stack(
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          AppAssets.imagefilme1,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
+                         child :   Image.network(
+                           suggestedMovies?[index].mediumCoverImage ?? "",
+                           width: double.infinity,
+                           height: double.infinity,
+                           fit: BoxFit.cover,
+                         ),
+                        // child: Image.asset(
+                        //   AppAssets.imagefilme1,
+                        //   width: double.infinity,
+                        //   height: double.infinity,
+                        //   fit: BoxFit.cover,
+                        // ),
                       ),
                       Positioned(
                         top: 8,
@@ -190,12 +256,13 @@ class MovieDetails extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
-                            children: const [
-                              Icon(Icons.star, color: Colors.yellow, size: 14),
-                              SizedBox(width: 4),
+                            children: [
+                              const Icon(Icons.star, color: Colors.yellow, size: 14),
+                              const SizedBox(width: 4),
                               Text(
-                                "8",
-                                style: TextStyle(
+                                "${suggestedMovies?[index].rating}" ,
+                               // "8" ,
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,
@@ -225,54 +292,57 @@ class MovieDetails extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Following the events of Spider-Man No Way Home, Doctor Strange unwittingly casts a forbidden spell that accidentally opens up the multiverse. With help from Wong and Scarlet Witch, Strange confronts various versions of himself as well as teaming up with the young America Chavez while traveling through various realities and working to restore reality as he knows it. Along the way, Strange and his allies realize they must take on a powerful new adversary who seeks to take over the multiverse.—Blazer346",
+                  (movie?.descriptionFull?.isEmpty ?? true)
+                      ? "No Available Description"
+                      : movie!.descriptionFull!
+                  ,
                   style: AppStyles.semi14White,
                 ),
               ),
             ) ,
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16),
-              child: Container(
-                width: 398,
-                height: 92,
-                decoration: ShapeDecoration(
-                  color: const Color(0xFF282A28),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start ,
-                    children: [
-                      Image.asset(
-                        AppAssets.Vector1,
-                        width: width*0.2,
-                        height: height*0.2,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start ,
-                        crossAxisAlignment: CrossAxisAlignment.start ,
-                        children: [
-                          Text(
-                            'Name : Hayley Atwell',
-                            style: AppStyles.semi20White
-                          ) ,
-                          Text(
-                            'Character : Captain Carter',
-                            style: AppStyles.semi20White
-                          )
-
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ) ,
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 16, top: 16),
+            //   child: Container(
+            //     width: 398,
+            //     height: 92,
+            //     decoration: ShapeDecoration(
+            //       color: const Color(0xFF282A28),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(16),
+            //       ),
+            //     ),
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Row(
+            //         crossAxisAlignment: CrossAxisAlignment.start ,
+            //         children: [
+            //           Image.asset(
+            //             AppAssets.Vector1,
+            //             width: width*0.2,
+            //             height: height*0.2,
+            //             fit: BoxFit.cover,
+            //           ),
+            //           const SizedBox(width: 12),
+            //           Column(
+            //             mainAxisAlignment: MainAxisAlignment.start ,
+            //             crossAxisAlignment: CrossAxisAlignment.start ,
+            //             children: [
+            //               Text(
+            //                 'Name : Hayley Atwell',
+            //                 style: AppStyles.semi20White
+            //               ) ,
+            //               Text(
+            //                 'Character : Captain Carter',
+            //                 style: AppStyles.semi20White
+            //               )
+            //
+            //             ],
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ) ,
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 16),
               child: Align(
@@ -283,20 +353,29 @@ class MovieDetails extends StatelessWidget {
                 ),
               ),
             ) ,
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16),
-              child: Container(
-                width: 122,
-                height: 36,
-                decoration: ShapeDecoration(
-                  color: const Color(0xFF282A28),
-                  shape: RoundedRectangleBorder(
+            SizedBox(height: 20,) ,
+            Wrap(
+              spacing: 12,       // space between items horizontally
+              runSpacing: 12,    // space between items vertically
+              children: movie?.genres
+                  ?.map(
+                    (genre) => Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF282A28),
                     borderRadius: BorderRadius.circular(12),
                   ),
+                  child: Text(
+                    genre,
+                    style: AppStyles.semi14White,
+                  ),
                 ),
-                child: Text("data" ,style: AppStyles.semi24White, textAlign: TextAlign.center, ),
-              ),
-            )
+              )
+                  .toList() ??
+                  [],
+            ) ,
+            SizedBox(height: 30,)
+
           ],
         ),
       ),

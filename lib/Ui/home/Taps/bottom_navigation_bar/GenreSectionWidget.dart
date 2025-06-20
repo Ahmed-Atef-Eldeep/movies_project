@@ -6,6 +6,8 @@ import '../../../../Utils/App Colors.dart';
 import '../../../../Utils/App Styles.dart';
 import '../../../../models/movieResponse.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'movie_details.dart';
 class GenreSection extends StatelessWidget {
   final String genre;
   final String title;
@@ -66,12 +68,17 @@ class GenreSection extends StatelessWidget {
                     padding: EdgeInsets.only(right: width * 0.03),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        movie.mediumCoverImage ?? "",
-                        width: width * 0.35,
-                        height: height * 0.2,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetails(movieId:"${movie.id}",)) ) ;
+                        },
+                        child: Image.network(
+                          movie.mediumCoverImage ?? "",
+                          width: width * 0.35,
+                          height: height * 0.2,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                        ),
                       ),
                     ),
                   )),

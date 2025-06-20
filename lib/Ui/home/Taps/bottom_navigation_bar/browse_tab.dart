@@ -3,6 +3,7 @@ import 'package:movies_project/Utils/App%20Colors.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
 import '../../../../APIs/api_manager.dart';
 import '../../../../models/movieResponse.dart';
+import 'movie_details.dart';
 
 class BrowseTab extends StatefulWidget {
   static const String routeName = 'browseTab';
@@ -156,12 +157,18 @@ class _BrowseTabState extends State<BrowseTab> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          movie.largeCoverImage ?? '',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetails(movieId:"${movie.id}",)) ) ;
 
+                          },
+                          child: Image.network(
+                            movie.largeCoverImage ?? '',
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+
+                          ),
                         ),
                       ),
                       Positioned(

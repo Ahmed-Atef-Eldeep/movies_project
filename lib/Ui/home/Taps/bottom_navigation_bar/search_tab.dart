@@ -9,6 +9,8 @@ import 'package:movies_project/Utils/App%20Colors.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'movie_details.dart';
+
 class SearchTab extends StatefulWidget {
   static const String routeName = 'searchTab';
   const SearchTab({super.key});
@@ -123,11 +125,16 @@ class _SearchTabState extends State<SearchTab> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            movie.largeCoverImage ?? '',
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetails(movieId:"${movie.id}",)) ) ;
+                            },
+                            child: Image.network(
+                              movie.largeCoverImage ?? '',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                            ),
                           ),
                         ),
                         Positioned(
