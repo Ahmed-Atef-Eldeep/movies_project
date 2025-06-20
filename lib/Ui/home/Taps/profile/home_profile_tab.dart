@@ -20,7 +20,9 @@ class _HomeProfileTabState extends State<HomeProfileTab> {
   List<Widget> tabsBodyList = [
     HomeTab(),
     SearchTab(),
-    BrowseTab(genre: "Action", ),
+    BrowseTab(
+      genre: "Action",
+    ),
     ProfileTab(),
   ];
 
@@ -33,18 +35,17 @@ class _HomeProfileTabState extends State<HomeProfileTab> {
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(canvasColor: AppColors.BlackBgColor),
           child: Padding(
-            padding:  EdgeInsets.only(
+            padding: EdgeInsets.only(
                 left: width * 0.015,
                 right: width * 0.015,
                 bottom: height * 0.005),
             child: ClipRRect(
-              
               borderRadius: BorderRadius.horizontal(
                   left: Radius.circular(10), right: Radius.circular(10)),
               child: BottomNavigationBar(
                 selectedItemColor: AppColors.primaryColor,
                 unselectedItemColor: AppColors.WhiteColor,
-              type: BottomNavigationBarType.fixed,
+                type: BottomNavigationBarType.fixed,
                 showUnselectedLabels: false,
                 showSelectedLabels: true,
                 currentIndex: selectedIndex,
@@ -53,7 +54,6 @@ class _HomeProfileTabState extends State<HomeProfileTab> {
                   setState(() {});
                 },
                 items: [
-                  
                   BottomNavigationBarItem(
                     icon: buildItemInBottomNavBar(
                         index: 0, imageName: AppAssets.hometab),

@@ -8,32 +8,32 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomNavigationBar: Theme(
-      //   data: Theme.of(context).copyWith(
-      //     canvasColor: AppColors.BlackBgColor,
-      //   ),
-      //   child: BottomNavigationBar(
-      //     backgroundColor: AppColors.BlackBgColor,
-      //     items: [
-      //       BottomNavigationBarItem(
-      //         icon: Image.asset('assets/images/home_tab.png'),
-      //         label: 'Home',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Image.asset('assets/images/browse_tab.png'),
-      //         label: 'Browse',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Image.asset('assets/images/search_tab.png'),
-      //         label: 'Search',
-      //       ),
-      //       BottomNavigationBarItem(
-      //         icon: Image.asset('assets/images/Profile_tab.png'),
-      //         label: 'Profile',
-      //       ),
-      //     ],
-      //   ),
-      // )
-    );
+        // bottomNavigationBar: Theme(
+        //   data: Theme.of(context).copyWith(
+        //     canvasColor: AppColors.BlackBgColor,
+        //   ),
+        //   child: BottomNavigationBar(
+        //     backgroundColor: AppColors.BlackBgColor,
+        //     items: [
+        //       BottomNavigationBarItem(
+        //         icon: Image.asset('assets/images/home_tab.png'),
+        //         label: 'Home',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: Image.asset('assets/images/browse_tab.png'),
+        //         label: 'Browse',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: Image.asset('assets/images/search_tab.png'),
+        //         label: 'Search',
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: Image.asset('assets/images/Profile_tab.png'),
+        //         label: 'Profile',
+        //       ),
+        //     ],
+        //   ),
+        // )
+        );
   }
 }
