@@ -64,11 +64,22 @@ class _SearchTabState extends State<SearchTab> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+ 
+    TextEditingController emailController = TextEditingController();
+
+
 
     return Scaffold(
       backgroundColor: AppColors.BlackColor,
       body: Padding(
         padding: EdgeInsets.only(
+
+            top: height * 0.05, left: width * 0.02, right: width * 0.02),
+        child: Column(
+          children: [
+            TextFormField(
+              controller: emailController,
+
           top: height * 0.05,
           left: width * 0.02,
           right: width * 0.02,
@@ -77,6 +88,7 @@ class _SearchTabState extends State<SearchTab> {
           children: [
             TextFormField(
               controller: searchController,
+
               style: AppStyles.semi16White,
               decoration: InputDecoration(
                 prefixIcon: Image.asset(AppAssets.searchtab),
@@ -89,6 +101,14 @@ class _SearchTabState extends State<SearchTab> {
                   borderSide: BorderSide.none,
                 ),
               ),
+
+              validator: (text) {},
+            ),
+            SizedBox(
+              height: height * 0.3,
+            ),
+            Image.asset(AppAssets.imageempty)
+
             ),
             SizedBox(height: 20),
 
@@ -160,6 +180,7 @@ class _SearchTabState extends State<SearchTab> {
                   },
                 ),
               )
+
           ],
         ),
       ),

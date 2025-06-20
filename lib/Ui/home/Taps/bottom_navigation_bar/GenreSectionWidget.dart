@@ -6,6 +6,7 @@ import '../../../../Utils/App Colors.dart';
 import '../../../../Utils/App Styles.dart';
 import '../../../../models/movieResponse.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class GenreSection extends StatelessWidget {
   final String genre;
   final String title;
@@ -48,8 +49,10 @@ class GenreSection extends StatelessWidget {
                     onPressed: onSeeMore,
                     child: Row(
                       children: [
-                        Text(AppLocalizations.of(context)!.seemore, style: AppStyles.semi16Primary),
-                        const Icon(Icons.arrow_forward_outlined, color: AppColors.primaryColor, size: 16),
+                        Text(AppLocalizations.of(context)!.seemore,
+                            style: AppStyles.semi16Primary),
+                        const Icon(Icons.arrow_forward_outlined,
+                            color: AppColors.primaryColor, size: 16),
                       ],
                     ),
                   ),
@@ -63,18 +66,19 @@ class GenreSection extends StatelessWidget {
                 children: [
                   SizedBox(width: width * 0.03),
                   ...movies.map((movie) => Padding(
-                    padding: EdgeInsets.only(right: width * 0.03),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        movie.mediumCoverImage ?? "",
-                        width: width * 0.35,
-                        height: height * 0.2,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
-                      ),
-                    ),
-                  )),
+                        padding: EdgeInsets.only(right: width * 0.03),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            movie.mediumCoverImage ?? "",
+                            width: width * 0.35,
+                            height: height * 0.2,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) =>
+                                const Icon(Icons.broken_image),
+                          ),
+                        ),
+                      )),
                 ],
               ),
             ),

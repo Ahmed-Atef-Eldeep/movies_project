@@ -274,10 +274,13 @@ class _ProfileTabState extends State<ProfileTab> {
           //     AppAssets.imageempty,
           //   ),
           // ),
-          SizedBox(height: height * 0.02,),
-          Expanded(child: 
-          selectedTab == ProfileScreen.watchList ? buildWatchList(): buildHistoryList()),
-      
+          SizedBox(
+            height: height * 0.02,
+          ),
+          Expanded(
+              child: selectedTab == ProfileScreen.watchList
+                  ? buildWatchList()
+                  : buildHistoryList()),
         ],
       ),
     );
@@ -303,6 +306,7 @@ Widget buildWatchList() {
     ],
   );
 }
+
 Widget buildHistoryList() {
   return GridView.count(
     crossAxisCount: 2,
@@ -310,7 +314,6 @@ Widget buildHistoryList() {
     padding: EdgeInsets.all(8),
     children: [
       Image.asset(AppAssets.imageaction2),
-
       Image.asset(AppAssets.imageaction3),
       Image.asset(AppAssets.imagefilme2),
       Image.asset(AppAssets.imagefilme3),

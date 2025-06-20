@@ -15,53 +15,58 @@ class OnboardingScreen1 extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Image(image: AssetImage(
-             AppAssets.onboardingScreen1,
-          ),
+          Image(
+            image: AssetImage(
+              AppAssets.onboardingScreen1,
+            ),
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
           ),
-       Padding(
-         padding: const EdgeInsets.only(bottom: 35.0,left: 15.0,right: 15.0),
-         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text('Find Your Next Favorite Movie Here',
-              style: AppStyles.semi30White,
-              textAlign: TextAlign.center,
-            ),
-            
-            Text('Get access to a huge library of movies to suit all tastes. You will surely like it.',
-            style: AppStyles.semi20White,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: height * 0.02,),
-            Container(
-              width: width * 0.92,
-              height: height * 0.06,
-              child: 
-              ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-                  shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0), 
-                      )
+          Padding(
+            padding:
+                const EdgeInsets.only(bottom: 35.0, left: 15.0, right: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Find Your Next Favorite Movie Here',
+                  style: AppStyles.semi30White,
+                  textAlign: TextAlign.center,
                 ),
-
-                child: Text('Explore Now',
-              style: AppStyles.semi20Black,) , 
-              onPressed: () {
-                Navigator.of(context).pushNamed(OnboardingScreen2.routeName);
-              }, ),
-            )
-          ],
-         ),
-       )
+                Text(
+                  'Get access to a huge library of movies to suit all tastes. You will surely like it.',
+                  style: AppStyles.semi20White,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                Container(
+                  width: width * 0.92,
+                  height: height * 0.06,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        )),
+                    child: Text(
+                      'Explore Now',
+                      style: AppStyles.semi20Black,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushNamed(OnboardingScreen2.routeName);
+                    },
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
-
     );
   }
 }

@@ -43,8 +43,10 @@ class AppAssets {
   static const String browsetab = "assets/images/browse_tab.png";
   static const String profiletab = "assets/images/Profile_tab.png";
   static const String searchtab = "assets/images/search_tab.png";
+
   static const String screanShot1 = "assets/images/large-screenshot1.png";
   static const String screanShot2 = "assets/images/large-screenshot2.png";
   static const String screanShot3 = "assets/images/large-screenshot3.png";
+
 
 }
