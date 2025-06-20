@@ -43,8 +43,4 @@ class AppAssets {
   static const String browsetab = "assets/images/browse_tab.png";
   static const String profiletab = "assets/images/Profile_tab.png";
   static const String searchtab = "assets/images/search_tab.png";
-
-
-
-
 }

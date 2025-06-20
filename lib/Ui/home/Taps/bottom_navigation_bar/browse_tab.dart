@@ -7,14 +7,13 @@ import '../../../../models/movieResponse.dart';
 class BrowseTab extends StatefulWidget {
   static const String routeName = 'browseTab';
 
-  final String genre  ;
+  final String genre;
 
-  const BrowseTab({super.key,  required this.genre});
+  const BrowseTab({super.key, required this.genre});
 
   @override
   State<BrowseTab> createState() => _BrowseTabState();
 }
-
 
 class _BrowseTabState extends State<BrowseTab> {
   List<String> genres = [
@@ -53,10 +52,9 @@ class _BrowseTabState extends State<BrowseTab> {
 
   @override
   void initState() {
-    super.initState() ;
-    selectedIndex = genres.indexOf(widget.genre );
+    super.initState();
+    selectedIndex = genres.indexOf(widget.genre);
     fetchMoviesForSelectedGenre();
-
   }
 
   Future<void> fetchMoviesForSelectedGenre() async {
@@ -65,8 +63,7 @@ class _BrowseTabState extends State<BrowseTab> {
     });
 
     try {
-      final response =
-      await ApiManager.getMovies(genre: genres[selectedIndex]);
+      final response = await ApiManager.getMovies(genre: genres[selectedIndex]);
       setState(() {
         movieResponse = response;
         isLoading = false;
@@ -139,59 +136,63 @@ class _BrowseTabState extends State<BrowseTab> {
               child: isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : movieResponse?.data?.movies == null ||
-                  movieResponse!.data!.movies!.isEmpty
-                  ? const Center(child: Text("No movies found"))
-                  : GridView.builder(
-                padding: EdgeInsets.only(right: 16),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.65,
-                ),
-                itemCount: movieResponse!.data!.movies!.length,
-                itemBuilder: (context, index) {
-                  final movie = movieResponse!.data!.movies![index];
-                  return Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          movie.largeCoverImage ?? '',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-
-                        ),
-                      ),
-                      Positioned(
-                        top: 8,
-                        left: 8,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(12),
+                          movieResponse!.data!.movies!.isEmpty
+                      ? const Center(child: Text("No movies found"))
+                      : GridView.builder(
+                          padding: EdgeInsets.only(right: 16),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                            childAspectRatio: 0.65,
                           ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.star, color: Colors.yellow, size: 14),
-                              const SizedBox(width: 4),
-                              Text(
-                                movie.rating?.toStringAsFixed(1) ?? "N/A",
-                                style: const TextStyle(
-                                    color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
-                              ),
-                            ],
-                          ),
+                          itemCount: movieResponse!.data!.movies!.length,
+                          itemBuilder: (context, index) {
+                            final movie = movieResponse!.data!.movies![index];
+                            return Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    movie.largeCoverImage ?? '',
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 8,
+                                  left: 8,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.7),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.star,
+                                            color: Colors.yellow, size: 14),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          movie.rating?.toStringAsFixed(1) ??
+                                              "N/A",
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
             )
-
           ],
         ),
       ),

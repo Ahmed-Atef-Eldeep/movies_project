@@ -13,33 +13,33 @@ class SearchTab extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     TextEditingController emailController = TextEditingController();
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.BlackColor,
-      body: 
-      Padding(
-        padding:  EdgeInsets.only(top:height * 0.05, left: width * 0.02, right: width * 0.02),
+      body: Padding(
+        padding: EdgeInsets.only(
+            top: height * 0.05, left: width * 0.02, right: width * 0.02),
         child: Column(
-          
           children: [
             TextFormField(
-                  controller: emailController,
-                  style: AppStyles.semi16White,
-                  decoration: InputDecoration(
-                    prefixIcon: Image.asset(AppAssets.searchtab),
-                    hintText: AppLocalizations.of(context)!.search,
-                    hintStyle: AppStyles.semi16White,
-                    filled: true,
-                    fillColor: AppColors.BlackBgColor,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  validator: (text){},
+              controller: emailController,
+              style: AppStyles.semi16White,
+              decoration: InputDecoration(
+                prefixIcon: Image.asset(AppAssets.searchtab),
+                hintText: AppLocalizations.of(context)!.search,
+                hintStyle: AppStyles.semi16White,
+                filled: true,
+                fillColor: AppColors.BlackBgColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide.none,
                 ),
-            SizedBox(height: height * 0.3,),
-            Image.asset(AppAssets.imageempty )
-
+              ),
+              validator: (text) {},
+            ),
+            SizedBox(
+              height: height * 0.3,
+            ),
+            Image.asset(AppAssets.imageempty)
           ],
         ),
       ),

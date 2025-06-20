@@ -9,32 +9,43 @@ import 'package:movies_project/Utils/App%20Colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
 import 'package:provider/provider.dart';
+
 class LoginScreen extends StatelessWidget {
   static const String routeName = 'LoginScreen';
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-   
-   LoginScreen({super.key});
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  var formkey1 = GlobalKey<FormState>();
+  var formkey2 = GlobalKey<FormState>();
+
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-     var languageProvider = Provider.of<LanguageProvider>(context);
+    var languageProvider = Provider.of<LanguageProvider>(context);
     return Scaffold(
       backgroundColor: AppColors.BlackColor,
-      body: 
-      Padding(
-        padding:  EdgeInsets.only(top:height*0.1,left:width*0.04,right: width*0.04),
+      body: Padding(
+        padding: EdgeInsets.only(
+            top: height * 0.1, left: width * 0.04, right: width * 0.04),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Image.asset(AppAssets.LoginScreen),
               SizedBox(height: height * 0.05),
               TextFormField(
+                key: formkey1,
+                cursorColor: AppColors.primaryColor,
+                cursorErrorColor: AppColors.RedColor,
                 controller: emailController,
                 style: AppStyles.semi16White,
+                keyboardType: TextInputType.emailAddress,
+                autofillHints: [AutofillHints.email],
                 decoration: InputDecoration(
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.RedColor),
+                  ),
                   prefixIcon: Image.asset(AppAssets.Emailicon),
                   hintText: AppLocalizations.of(context)!.email,
                   hintStyle: AppStyles.semi16White,
@@ -45,13 +56,23 @@ class LoginScreen extends StatelessWidget {
                     borderSide: BorderSide.none,
                   ),
                 ),
-                validator: (text){},
+                validator: (text) {},
               ),
               SizedBox(height: height * 0.03),
               TextFormField(
+                key: formkey2,
+                cursorColor: AppColors.primaryColor,
+                cursorErrorColor: AppColors.RedColor,
                 controller: passwordController,
                 style: AppStyles.semi16White,
+                keyboardType: TextInputType.visiblePassword,
+                autofillHints: [AutofillHints.password],
+                obscureText: true,
+                obscuringCharacter: '*',
                 decoration: InputDecoration(
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.RedColor),
+                  ),
                   prefixIcon: Image.asset(AppAssets.Passwordicon),
                   hintText: AppLocalizations.of(context)!.password,
                   hintStyle: AppStyles.semi16White,
@@ -62,48 +83,53 @@ class LoginScreen extends StatelessWidget {
                     borderSide: BorderSide.none,
                   ),
                 ),
-                validator: (text){},
-              )
-              ,Row(
+                validator: (text) {},
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                  onPressed: (){
-                    Navigator.of(context).pushNamed(ForgotPasswordScreen.routeName);
-                  }, 
-                  child:Text(AppLocalizations.of(context)!.forgot_password,
-                  style: AppStyles.semi15Primary,
-                  ) ),
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(ForgotPasswordScreen.routeName);
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.forgot_password,
+                        style: AppStyles.semi15Primary,
+                      )),
                 ],
               ),
               SizedBox(height: height * 0.03),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(HomeScreen.routeName);
-                },
-                child: Text(AppLocalizations.of(context)!.login ,
-                style: AppStyles.semi20Black,),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  minimumSize: Size(width, height * 0.07),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(HomeScreen.routeName);
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.login,
+                    style: AppStyles.semi20Black,
                   ),
-                )
-          
-              ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    minimumSize: Size(width, height * 0.07),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  )),
               SizedBox(height: height * 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppLocalizations.of(context)!.dont_have_account,
-                  style: AppStyles.semi16White,),
+                  Text(
+                    AppLocalizations.of(context)!.dont_have_account,
+                    style: AppStyles.semi16White,
+                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(RegisterScreen.routeName);
                     },
-                    child: Text(AppLocalizations.of(context)!.create_account,
-                       style: AppStyles.semi16Primary,
+                    child: Text(
+                      AppLocalizations.of(context)!.create_account,
+                      style: AppStyles.semi16Primary,
                     ),
                   )
                 ],
@@ -119,42 +145,45 @@ class LoginScreen extends StatelessWidget {
                       indent: width * 0.05,
                     ),
                   ),
-                  Text(AppLocalizations.of(context)!.or,
-                    style: AppStyles.semi16White,),
+                  Text(
+                    AppLocalizations.of(context)!.or,
+                    style: AppStyles.semi16White,
+                  ),
                   Expanded(
                     child: Divider(
                       color: AppColors.primaryColor,
                       thickness: 1,
                       indent: width * 0.05,
-                       endIndent: width * 0.05,
+                      endIndent: width * 0.05,
                     ),
                   ),
-          
-              ],),
+                ],
+              ),
               SizedBox(height: height * 0.04),
               ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(AppAssets.Icongoogle),
-                    SizedBox(width: width * 0.02),
-                    Text(AppLocalizations.of(context)!.login_with_google ,
-                    style: AppStyles.semi16Black,),
-                  ],
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  minimumSize: Size(width, height * 0.07),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                  onPressed: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(AppAssets.Icongoogle),
+                      SizedBox(width: width * 0.02),
+                      Text(
+                        AppLocalizations.of(context)!.login_with_google,
+                        style: AppStyles.semi16Black,
+                      ),
+                    ],
                   ),
-                )
-              ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    minimumSize: Size(width, height * 0.07),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  )),
               SizedBox(height: height * 0.03),
               Container(
-                height: height*0.07,
-                width: width*0.333,
+                height: height * 0.07,
+                width: width * 0.333,
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.primaryColor),
                   borderRadius: BorderRadius.circular(35),
@@ -163,32 +192,34 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      onPressed: (){
+                      onPressed: () {
                         languageProvider.changeLanguage('ar');
-          
-                      }, 
-                      icon: Image.asset(AppAssets.EGlanguage,width: 40,),
-                    color: AppColors.primaryColor,),
+                      },
+                      icon: Image.asset(
+                        AppAssets.EGlanguage,
+                        width: 40,
+                      ),
+                      color: AppColors.primaryColor,
+                    ),
                     IconButton(
-                      onPressed: (){
+                      onPressed: () {
                         languageProvider.changeLanguage('en');
-                      }, 
-                    icon: Image.asset(AppAssets.LRlanguage,width: 40,),
-                    color: AppColors.primaryColor,),
-          
-          
+                      },
+                      icon: Image.asset(
+                        AppAssets.LRlanguage,
+                        width: 40,
+                      ),
+                      color: AppColors.primaryColor,
+                    ),
                   ],
                 ),
               )
-          
             ],
           ),
         ),
-      )
-      ,
+      ),
     );
   }
 }
-
 
 // AppLocalizations.of(context)!.
