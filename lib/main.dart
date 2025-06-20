@@ -35,10 +35,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
 
-      initialRoute: LoginScreen.routeName,
+      initialRoute:HomeScreen.routeName,
 
-
-      
 
       routes: {
         OnboardingScreen1.routeName: (context) =>  OnboardingScreen1(),
@@ -52,7 +50,8 @@ class MyApp extends StatelessWidget {
         ForgotPasswordScreen.routeName: (context) =>  ForgotPasswordScreen(),
         HomeProfileTab.routeName: (context) =>  HomeProfileTab(),
         HomeScreen.routeName: (context) =>  HomeScreen(),
-        MovieDetails.routeName: (context) =>  MovieDetails(),
+        // MovieDetails.routeName: (context) =>  MovieDetails(),
+
         UpdateProfileTab.routeName: (context) =>  UpdateProfileTab(),
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
