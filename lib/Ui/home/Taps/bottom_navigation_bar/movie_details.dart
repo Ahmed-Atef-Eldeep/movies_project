@@ -91,13 +91,15 @@ class MovieDetails extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  StatItem(icon: Icons.favorite, label: "15"),
-                  StatItem(icon: Icons.access_time, label: "90"),
-                  StatItem(icon: Icons.star, label: "7.6"),
-                ],
+              child: SingleChildScrollView(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    StatItem(icon: Icons.favorite, label: "15"),
+                    StatItem(icon: Icons.access_time, label: "90"),
+                    StatItem(icon: Icons.star, label: "7.6"),
+                  ],
+                ),
               ),
             ),
             Padding(
