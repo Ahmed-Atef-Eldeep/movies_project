@@ -28,13 +28,13 @@ class AppAssets {
   static const String Vector1 = "assets/images/AV1.png";
   static const String Vector2 = "assets/images/AV2.png";
   static const String Vector3 = "assets/images/AV3.png";
-  // static const String Vector4 = "assets/images/AV4.png";
-  // static const String Vector5 = "assets/images/AV5.png";
-  // static const String Vector6 = "assets/images/AV6.png";
+  static const String Vector4 = "assets/images/gamer (4).png";
+  static const String Vector5 = "assets/images/gamer (5).png";
+  static const String Vector6 = "assets/images/gamer (6).png";
   static const String Vector7 = "assets/images/AV7.png";
-  // static const String Vector8 = "assets/images/AV8.png";
+  static const String Vector8 = "assets/images/gamer (8).png";
   // static const String Vector9 = "assets/images/AV9.png";
-  // static const String Vector10 = "assets/images/AV10.png";
+  static const String Vector10 = "assets/images/gamer (10).png";
   static const String Icongoogle = "assets/images/🦆 icon _google_.png";
   static const String EGlanguage = "assets/images/arabic.png";
   static const String LRlanguage = "assets/images/english.png";
@@ -43,4 +43,10 @@ class AppAssets {
   static const String browsetab = "assets/images/browse_tab.png";
   static const String profiletab = "assets/images/Profile_tab.png";
   static const String searchtab = "assets/images/search_tab.png";
+
+  static const String screanShot1 = "assets/images/large-screenshot1.png";
+  static const String screanShot2 = "assets/images/large-screenshot2.png";
+  static const String screanShot3 = "assets/images/large-screenshot3.png";
+
+
 }
