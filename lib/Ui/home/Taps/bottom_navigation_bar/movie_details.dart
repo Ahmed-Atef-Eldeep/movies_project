@@ -139,14 +139,17 @@ class _MovieDetailsState extends State<MovieDetails> {
             ),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  StatItem(icon: Icons.favorite, label: "${movie?.likeCount}"),
-                  StatItem(icon: Icons.access_time, label: "${movie?.runtime}"),
-                  StatItem(icon: Icons.star, label: "${movie?.rating}"),
-                ],
+              padding:  EdgeInsets.symmetric(horizontal: 10),
+              child: Container(
+                
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StatItem(icon: Icons.favorite, label: "${movie?.likeCount}"),
+                    StatItem(icon: Icons.access_time, label: "${movie?.runtime}"),
+                    StatItem(icon: Icons.star, label: "${movie?.rating}"),
+                  ],
+                ),
               ),
             ),
             // Padding(
@@ -382,8 +385,6 @@ class _MovieDetailsState extends State<MovieDetails> {
     );
   }
 }
-
-// Widget for the stats row (likes, time, rating)
 class StatItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -393,50 +394,82 @@ class StatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 122,
-      height: 47,
-      child: Stack(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      decoration: BoxDecoration(
+        color: const Color(0xFF282A28),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 122,
-              height: 47,
-              decoration: ShapeDecoration(
-                color: const Color(0xFF282A28),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 20,
-            top: 11,
-            right: 20,
-            child: SizedBox(
-              width: 100,
-              height: 26.08,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween ,
-                children: [
-                  Icon(icon , color: AppColors.primaryColor , size: 25, ) ,
-                   // Spacer() ,
-                  Text(
-                    label,
-                    textAlign: TextAlign.center,
-                    style: AppStyles.semi24White
-                  ),
-                ],
-              )
+          Icon(icon, color: AppColors.primaryColor, size: 22),
+          const SizedBox(width: 20),
+          Flexible(
+            child: Text(
+              label,
+              style: AppStyles.semi24White.copyWith(fontSize: 14),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
       ),
-    ) ;
+    );
   }
 }
+// Widget for the stats row (likes, time, rating)
+// class StatItem extends StatelessWidget {
+//   final IconData icon;
+//   final String label;
+
+//   const StatItem({required this.icon, required this.label});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 122,
+//       height: 47,
+//       child: Stack(
+//         children: [
+//           Positioned(
+//             left: 0,
+//             top: 0,
+//             child: Container(
+//               width: 122,
+//               height: 47,
+//               decoration: ShapeDecoration(
+//                 color: const Color(0xFF282A28),
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(16),
+//                 ),
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             left: 20,
+//             top: 11,
+//             right: 20,
+//             child: SizedBox(
+//               width: 100,
+//               height: 26.08,
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+//                 children: [
+//                   Icon(icon , color: AppColors.primaryColor , size: 25, ) ,
+//                    // Spacer() ,
+//                   Text(
+//                     label,
+//                     textAlign: TextAlign.center,
+//                     style: AppStyles.semi24White
+//                   ),
+//                 ],
+//               )
+//             ),
+//           ),
+//         ],
+//       ),
+//     ) ;
+//   }
+
 
 
 

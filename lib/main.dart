@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
 
-      initialRoute:HomeScreen.routeName,
+      initialRoute: LoginScreen.routeName,
 
 
       routes: {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movies_project/APIs/api_manager.dart';
 import 'package:movies_project/Providers/language_provider.dart';
+import 'package:movies_project/Ui/home/HomeScreen.dart';
 import 'package:movies_project/Ui/home/Taps/Authentication/login_Screen.dart';
 import 'package:movies_project/Utils/App%20Assets.dart';
 import 'package:movies_project/Utils/App%20Colors.dart';
@@ -9,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'register';
+ 
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -18,11 +21,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
-
+  TextEditingController confirmPasswordController = TextEditingController();
+  final formkey = GlobalKey<FormState>();
+ 
   bool isPasswordHidden = true;
-
+  int? selectedAvatarId;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -54,19 +58,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  Image.asset(
-                    AppAssets.Vector1,
-                    width: width * 0.2,
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        selectedAvatarId = 1;
+                      });
+                    },
+                    child: Image.asset(
+                      AppAssets.Vector1,
+                      width: width * 0.2,
+                    ),
                   ),
                   SizedBox(width: width * 0.02),
-                  Image.asset(
-                    AppAssets.Vector2,
-                    width: width * 0.5,
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        selectedAvatarId = 2;
+                      });
+                    },
+                    child: Image.asset(
+                      AppAssets.Vector2,
+                      width: width * 0.5,
+                    ),
                   ),
                   SizedBox(width: width * 0.02),
-                  Image.asset(
-                    AppAssets.Vector3,
-                    width: width * 0.2,
+                  InkWell(
+                    onTap: (){
+                      setState(() {
+                        selectedAvatarId = 3;
+                      });
+                    },
+                    child: Image.asset(
+                      AppAssets.Vector3,
+                      width: width * 0.2,
+                    ),
                   ),
                 ],
               ),
@@ -74,7 +99,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             Text('Avatar', style: AppStyles.semi16White),
             SizedBox(height: height * 0.015),
-            TextFormField(
+            
+            Form(
+              key: formkey,
+              child: Column(
+                children: [
+                  TextFormField(
+            
               cursorColor: AppColors.primaryColor,
               cursorErrorColor: AppColors.RedColor,
               controller: nameController,
@@ -93,40 +124,63 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderSide: BorderSide.none,
                 ),
               ),
-              validator: (text) {},
+              validator: (text) {
+                if (text == null || text.trim().isEmpty) {
+                  return 'please enter your name';
+                }
+                if (text.length < 2) {
+                  return 'name must be at least 2 characters';
+                }
+                return null;
+              },
             ),
             SizedBox(height: height * 0.015),
+                  TextFormField(
+                    
+                    cursorColor: AppColors.primaryColor,
+                    cursorErrorColor: AppColors.RedColor,
+                    controller: emailController,
+                    style: AppStyles.semi16White,
+                    decoration: InputDecoration(
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.RedColor),
+                      ),
+                      prefixIcon: Image.asset(AppAssets.Emailicon),
+                      hintText: AppLocalizations.of(context)!.email,
+                      hintStyle: AppStyles.semi16White,
+                      filled: true,
+                      fillColor: AppColors.BlackBgColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    validator: (text) {
+                       if (text == null || text.trim().isEmpty) {
+                          return 'please enter your email';
+                        } final bool emailValid = RegExp(
+                                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                            .hasMatch(text);
+                        if (!emailValid) {
+                          return 'please enter a valid email';
+                        }
+                        return null;
+                    },
+                  ),
+                   SizedBox(height: height * 0.015),
             TextFormField(
-              cursorColor: AppColors.primaryColor,
-              cursorErrorColor: AppColors.RedColor,
-              controller: emailController,
-              style: AppStyles.semi16White,
-              decoration: InputDecoration(
-                errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.RedColor),
-                ),
-                prefixIcon: Image.asset(AppAssets.Emailicon),
-                hintText: AppLocalizations.of(context)!.email,
-                hintStyle: AppStyles.semi16White,
-                filled: true,
-                fillColor: AppColors.BlackBgColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              validator: (text) {},
-            ),
-            SizedBox(height: height * 0.015),
-            TextFormField(
+              
               cursorColor: AppColors.primaryColor,
               cursorErrorColor: AppColors.RedColor,
               controller: passwordController,
+               obscureText: isPasswordHidden,
+              obscuringCharacter: '*',
               style: AppStyles.semi16White,
               decoration: InputDecoration(
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.RedColor),
                 ),
+                
                 prefixIcon: Image.asset(AppAssets.Passwordicon),
                 suffixIcon: IconButton(
                     icon: Icon(
@@ -149,14 +203,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderSide: BorderSide.none,
                 ),
               ),
-              validator: (text) {},
+              validator: (text) {
+                 if (text == null || text.trim().isEmpty) {
+                    return 'please enter your password';
+                  }
+                  if (text.length < 8) {
+                    return 'password must be at least 8 characters';
+                  }
+                  return null;
+              },
             ),
             SizedBox(height: height * 0.015),
             TextFormField(
+              
               cursorColor: AppColors.primaryColor,
               cursorErrorColor: AppColors.RedColor,
               obscureText: isPasswordHidden,
-              controller: passwordController,
+                obscuringCharacter: '*',
+              controller: confirmPasswordController,
               style: AppStyles.semi16White,
               decoration: InputDecoration(
                 errorBorder: OutlineInputBorder(
@@ -183,10 +247,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderSide: BorderSide.none,
                 ),
               ),
-              validator: (text) {},
+              validator: (text) {
+                 if (text == null || text.trim().isEmpty) {
+                    return 'please enter your password';
+                  }
+                  if (text.length < 8) {
+                    return 'password must be at least 8 characters';
+                  }
+                  return null;
+              },
             ),
             SizedBox(height: height * 0.015),
             TextFormField(
+             
               cursorColor: AppColors.primaryColor,
               cursorErrorColor: AppColors.RedColor,
               controller: phoneController,
@@ -205,11 +278,116 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderSide: BorderSide.none,
                 ),
               ),
-              validator: (text) {},
+              validator: (text) {
+                
+              if (text == null || text.trim().isEmpty) {
+                return 'please enter your phone number';
+              }
+            
+              final phoneRegExp = RegExp(
+                r'^\+?[0-9]{10,15}$',
+              );
+              if (!phoneRegExp.hasMatch(text)) {
+                return 'please enter a valid phone number';
+              }
+              return null;
+              },
             ),
+                ],
+              ),
+            ),
+           
             SizedBox(height: height * 0.01),
             ElevatedButton(
-                onPressed: () {},
+              onPressed: () async {
+                if (!formkey.currentState!.validate()) {
+                  return;
+                }
+  String email = emailController.text;
+  String password = passwordController.text;
+  String confirmPassword = confirmPasswordController.text;
+  String name = nameController.text;
+  String phone = phoneController.text;
+
+  if (password != confirmPassword) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Passwords do not match")),
+    );
+    return;
+  }
+
+  if (selectedAvatarId == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Please select an avatar")),
+    );
+    return;
+  }
+
+  print("Email: $email");
+  print("Password: $password");
+  print("Name: $name");
+  print("Phone: $phone");
+  print("Selected Avatar ID: $selectedAvatarId");
+
+  final registerResponse = await ApiManager.register(
+    email: email,
+    password: password,
+    confirmPassword: confirmPassword,
+    name: name,
+    phone: phone,
+    avatarId: selectedAvatarId,
+  );
+
+  if (registerResponse != null) {
+    print("Register successful!");
+    Navigator.of(context).pushNamed(HomeScreen.routeName);
+  } else {
+    print("Register failed!");
+  }
+
+  setState(() {});
+},
+//                onPressed: () async {
+//   String email = emailController.text;
+//   String password = passwordController.text;
+//   String confirmPassword = confirmPasswordController.text;
+//   String name = nameController.text;
+//   String phone = phoneController.text;
+
+//   // تأكد من تطابق الباسورد
+//   if (password != confirmPassword) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text("Passwords do not match")),
+//     );
+//     return;
+//   }
+
+//   print("Email: $email");
+//   print("Password: $password");
+//   print("Name: $name");
+//   print("Phone: $phone");
+
+//   final registerResponse = await ApiManager.register(
+//     email: email,
+//     password: password,
+//     confirmPassword: confirmPassword,
+//     name: name,
+//     phone: phone,
+//     avatarId: selectedAvatarId.toString(),
+//   );
+
+//   if (registerResponse != null) {
+//     print("Register successful!");
+
+//     // روح للشاشة الرئيسية أو login بعد النجاح
+//     Navigator.of(context).pushNamed(HomeScreen.routeName);
+//   } else {
+//     print("Register failed!");
+//     // ممكن تعرض رسالة خطأ للمستخدم هنا كمان
+//   }
+
+//   setState(() {});
+// },
                 child: Text(
                   AppLocalizations.of(context)!.create_account,
                   style: AppStyles.semi20Black,
