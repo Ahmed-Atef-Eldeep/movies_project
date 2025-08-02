@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_project/APIs/api_manager.dart';
 import 'package:movies_project/Providers/language_provider.dart';
 import 'package:movies_project/Ui/home/HomeScreen.dart';
 import 'package:movies_project/Ui/home/Taps/Authentication/Register.dart';
@@ -10,14 +11,22 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String routeName = 'LoginScreen';
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  var formkey1 = GlobalKey<FormState>();
-  var formkey2 = GlobalKey<FormState>();
 
   LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+bool isPasswordHidden = true;
+  final formkey = GlobalKey<FormState>();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -34,46 +43,70 @@ class LoginScreen extends StatelessWidget {
             children: [
               Image.asset(AppAssets.LoginScreen),
               SizedBox(height: height * 0.05),
+              Form(
+                key: formkey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      cursorColor: AppColors.primaryColor,
+                      cursorErrorColor: AppColors.RedColor,
+                      controller: emailController,
+                      style: AppStyles.semi16White,
+                      keyboardType: TextInputType.emailAddress,
+                      autofillHints: [AutofillHints.email],
+                      decoration: InputDecoration(
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: AppColors.RedColor),
+                        ),
+                        prefixIcon: Image.asset(AppAssets.Emailicon),
+                        hintText: AppLocalizations.of(context)!.email,
+                        hintStyle: AppStyles.semi16White,
+                        filled: true,
+                        fillColor: AppColors.BlackBgColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      validator: (text) {
+                        if (text == null || text.trim().isEmpty) {
+                          return 'please enter your email';
+                        }
+                        final bool emailValid = RegExp(
+                                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                            .hasMatch(text);
+                        if (!emailValid) {
+                          return 'please enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                     SizedBox(height: height * 0.03),
               TextFormField(
-                key: formkey1,
-                cursorColor: AppColors.primaryColor,
-                cursorErrorColor: AppColors.RedColor,
-                controller: emailController,
-                style: AppStyles.semi16White,
-                keyboardType: TextInputType.emailAddress,
-                autofillHints: [AutofillHints.email],
-                decoration: InputDecoration(
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.RedColor),
-                  ),
-                  prefixIcon: Image.asset(AppAssets.Emailicon),
-                  hintText: AppLocalizations.of(context)!.email,
-                  hintStyle: AppStyles.semi16White,
-                  filled: true,
-                  fillColor: AppColors.BlackBgColor,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                validator: (text) {},
-              ),
-              SizedBox(height: height * 0.03),
-              TextFormField(
-                key: formkey2,
                 cursorColor: AppColors.primaryColor,
                 cursorErrorColor: AppColors.RedColor,
                 controller: passwordController,
                 style: AppStyles.semi16White,
                 keyboardType: TextInputType.visiblePassword,
                 autofillHints: [AutofillHints.password],
-                obscureText: true,
+                obscureText: isPasswordHidden,
                 obscuringCharacter: '*',
                 decoration: InputDecoration(
                   errorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: AppColors.RedColor),
                   ),
                   prefixIcon: Image.asset(AppAssets.Passwordicon),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        isPasswordHidden
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: AppColors.WhiteColor),
+                    onPressed: () {
+                      setState(() {
+                        isPasswordHidden = !isPasswordHidden;
+                      });
+                    }),
                   hintText: AppLocalizations.of(context)!.password,
                   hintStyle: AppStyles.semi16White,
                   filled: true,
@@ -83,8 +116,20 @@ class LoginScreen extends StatelessWidget {
                     borderSide: BorderSide.none,
                   ),
                 ),
-                validator: (text) {},
+                validator: (text) {
+                  if (text == null || text.trim().isEmpty) {
+                    return 'please enter your password';
+                  }
+                  if (text.length < 8) {
+                    return 'password must be at least 8 characters';
+                  }
+                  return null;
+                },
               ),
+                  ],
+                ),
+              ),
+             
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -101,9 +146,39 @@ class LoginScreen extends StatelessWidget {
               ),
               SizedBox(height: height * 0.03),
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(HomeScreen.routeName);
+                  onPressed: () async {
+                    if (!formkey.currentState!.validate()) {
+                      return;
+                    }
+                    String email = emailController.text;
+                    String password = passwordController.text;
+
+                    print("Email: $email");
+                    print("Password: $password");
+
+                    final loginResponse = await ApiManager.login(
+                        email: email, password: password);
+
+                    if (loginResponse != null) {
+                      print("Login successful!");
+
+                      Navigator.of(context).pushNamed(HomeScreen.routeName);
+                    } else {
+                      print("Login failed!");
+                    }
+
+                    setState(() {});
                   },
+                  // onPressed: () {
+                  //   String email = emailController.text;
+                  //   String password = passwordController.text;
+                  //   ApiManager.login(email: email, password: password);
+                  //   print( email + " " + password);
+                  //   // Navigator.of(context).pushNamed(HomeScreen.routeName);
+                  // setState(() {
+
+                  // });
+                  // },
                   child: Text(
                     AppLocalizations.of(context)!.login,
                     style: AppStyles.semi20Black,

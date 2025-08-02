@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movies_project/APIs/api_manager.dart';
+import 'package:movies_project/Ui/home/Taps/profile/update_profile_tab.dart';
 import 'package:movies_project/Utils/App%20Assets.dart';
 import 'package:movies_project/Utils/App%20Colors.dart';
 import 'package:movies_project/Utils/App%20Styles.dart';
@@ -34,6 +36,10 @@ class _ProfileTabState extends State<ProfileTab> {
   };
 
   int selectedIndex = 0;
+String imagePath = ApiManager.getImageProfile(
+    ApiManager.registerResponse?.data?.avaterId);
+
+
 
   // bool isselected;
   @override
@@ -55,7 +61,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(AppAssets.Vector1),
+                    Image.asset(imagePath),
                     Column(
                       children: [
                         Text(
@@ -96,7 +102,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 Row(
                   children: [
                     Text(
-                      'John Safwat',
+                      ApiManager.registerResponse?.data?.name ?? 'User Name',
                       style: AppStyles.semi20White
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
@@ -108,7 +114,10 @@ class _ProfileTabState extends State<ProfileTab> {
                 Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, UpdateProfileTab.routeName);
+                      },
                       child: Text(
                         AppLocalizations.of(context)!.edit_profile,
                         style: AppStyles.semi20Black,
@@ -234,31 +243,6 @@ class _ProfileTabState extends State<ProfileTab> {
                     )
                   ],
                 ),
-                // SizedBox(
-                //   height: height * 0.005,
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: Divider(
-                //         color: AppColors.primaryColor,
-                //         thickness: 3,
-                //         endIndent: width * 0.02,
-                //         indent: width * 0.02,
-                //       ),
-                //     ),
-                //     Expanded(
-                //       child: Divider(
-                //         color: isselected
-                //             ? AppColors.BlackColor
-                //             : AppColors.primaryColor,
-                //         thickness: 3,
-                //         indent: width * 0.02,
-                //         endIndent: width * 0.02,
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -268,12 +252,7 @@ class _ProfileTabState extends State<ProfileTab> {
             endIndent: width * 0.02,
             indent: width * 0.02,
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(top: height * 0.16),
-          //   child: Image.asset(
-          //     AppAssets.imageempty,
-          //   ),
-          // ),
+
           SizedBox(
             height: height * 0.02,
           ),
@@ -325,4 +304,21 @@ Widget buildHistoryList() {
       Image.asset(AppAssets.imagefilme3),
     ],
   );
+  
+
 }
+// String getImageProfile(int? avatarId) {
+//     if (avatarId == null) {
+//       return AppAssets.Vector1;
+//     }
+//     switch (avatarId) {
+//       case 1:
+//         return AppAssets.Vector1;
+//       case 2:
+//         return AppAssets.Vector2;
+//       case 3:
+//         return AppAssets.Vector3;
+//       default:
+//         return AppAssets.Vector1; // Default avatar if none match
+//     }
+//   }
