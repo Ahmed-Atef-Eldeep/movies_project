@@ -335,7 +335,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     confirmPassword: confirmPassword,
     name: name,
     phone: phone,
-    avatarId: selectedAvatarId,
+    avatarId: selectedAvatarId!,
   );
 
   if (registerResponse != null) {
@@ -347,47 +347,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   setState(() {});
 },
-//                onPressed: () async {
-//   String email = emailController.text;
-//   String password = passwordController.text;
-//   String confirmPassword = confirmPasswordController.text;
-//   String name = nameController.text;
-//   String phone = phoneController.text;
-
-//   // تأكد من تطابق الباسورد
-//   if (password != confirmPassword) {
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(content: Text("Passwords do not match")),
-//     );
-//     return;
-//   }
-
-//   print("Email: $email");
-//   print("Password: $password");
-//   print("Name: $name");
-//   print("Phone: $phone");
-
-//   final registerResponse = await ApiManager.register(
-//     email: email,
-//     password: password,
-//     confirmPassword: confirmPassword,
-//     name: name,
-//     phone: phone,
-//     avatarId: selectedAvatarId.toString(),
-//   );
-
-//   if (registerResponse != null) {
-//     print("Register successful!");
-
-//     // روح للشاشة الرئيسية أو login بعد النجاح
-//     Navigator.of(context).pushNamed(HomeScreen.routeName);
-//   } else {
-//     print("Register failed!");
-//     // ممكن تعرض رسالة خطأ للمستخدم هنا كمان
-//   }
-
-//   setState(() {});
-// },
                 child: Text(
                   AppLocalizations.of(context)!.create_account,
                   style: AppStyles.semi20Black,

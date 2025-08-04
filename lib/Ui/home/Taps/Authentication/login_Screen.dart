@@ -169,16 +169,6 @@ bool isPasswordHidden = true;
 
                     setState(() {});
                   },
-                  // onPressed: () {
-                  //   String email = emailController.text;
-                  //   String password = passwordController.text;
-                  //   ApiManager.login(email: email, password: password);
-                  //   print( email + " " + password);
-                  //   // Navigator.of(context).pushNamed(HomeScreen.routeName);
-                  // setState(() {
-
-                  // });
-                  // },
                   child: Text(
                     AppLocalizations.of(context)!.login,
                     style: AppStyles.semi20Black,

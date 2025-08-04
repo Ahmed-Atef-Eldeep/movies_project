@@ -40,7 +40,7 @@ class Data {
       this.password, 
       this.name, 
       this.phone, 
-      this.avaterId, 
+      this.avatarId, 
       this.id, 
       this.createdAt, 
       this.updatedAt, 
@@ -51,7 +51,7 @@ class Data {
     password = json['password'];
     name = json['name'];
     phone = json['phone'];
-    avaterId = json['avaterId'];
+    avatarId = json['avatarId'];
     id = json['_id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -61,7 +61,7 @@ class Data {
   String? password;
   String? name;
   String? phone;
-  int? avaterId;
+  int? avatarId;
   String? id;
   String? createdAt;
   String? updatedAt;
@@ -73,7 +73,7 @@ class Data {
     map['password'] = password;
     map['name'] = name;
     map['phone'] = phone;
-    map['avaterId'] = avaterId;
+    map['avatarId'] = avatarId;
     map['_id'] = id;
     map['createdAt'] = createdAt;
     map['updatedAt'] = updatedAt;

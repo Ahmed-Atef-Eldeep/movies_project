@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:movies_project/APIs/api_manager.dart';
+import 'package:movies_project/Ui/home/Taps/profile/function_image.dart';
 import 'package:movies_project/Ui/home/Taps/profile/update_profile_tab.dart';
 import 'package:movies_project/Utils/App%20Assets.dart';
 import 'package:movies_project/Utils/App%20Colors.dart';
@@ -36,10 +39,9 @@ class _ProfileTabState extends State<ProfileTab> {
   };
 
   int selectedIndex = 0;
-String imagePath = ApiManager.getImageProfile(
-    ApiManager.registerResponse?.data?.avaterId);
-
-
+  late String imagePath =
+      ApiManager.getImageProfile(ApiManager.registerResponse?.data?.avatarId);
+  File? pickedImage;
 
   // bool isselected;
   @override
@@ -61,7 +63,65 @@ String imagePath = ApiManager.getImageProfile(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(imagePath),
+                    // Stack(
+                    //   children: [
+                    //     if(pickedImage !=null)
+                    //       Image.file(pickedImage!)
+                    //       else 
+                    //     Image.asset(imagePath),
+                    //     Positioned(
+                    //       bottom: 8,
+                    //       right: 8,
+                    //       child: InkWell(
+                    //         onTap: () async {
+                    //           showImageSourceDialog(context);
+                    //         },
+                    //         child: CircleAvatar(
+                    //           radius: 12,
+                    //           backgroundColor: AppColors.primaryColor,
+                    //           backgroundImage: pickedImage == null
+                    //               ? null
+                    //               : FileImage(pickedImage!),
+                    //           child: Icon(
+                    //             Icons.camera_alt,
+                    //             size: 12,
+                    //             color: AppColors.BlackColor,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    Stack(
+  alignment: Alignment.center,
+  children: [
+    CircleAvatar(
+      radius: 47,
+      backgroundImage: pickedImage != null
+          ? FileImage(pickedImage!)
+          : AssetImage(imagePath) as ImageProvider,
+    ),
+    Positioned(
+      bottom: 8,
+      right: 8,
+      child: InkWell(
+        onTap: () async {
+          showImageSourceDialog(context);
+        },
+        child: CircleAvatar(
+          radius: 12,
+          backgroundColor: AppColors.primaryColor,
+          child: Icon(
+            Icons.camera_alt,
+            size: 12,
+            color: AppColors.BlackColor,
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
                     Column(
                       children: [
                         Text(
@@ -252,7 +312,6 @@ String imagePath = ApiManager.getImageProfile(
             endIndent: width * 0.02,
             indent: width * 0.02,
           ),
-
           SizedBox(
             height: height * 0.02,
           ),
@@ -262,6 +321,65 @@ String imagePath = ApiManager.getImageProfile(
                   : buildHistoryList()),
         ],
       ),
+    );
+  }
+
+  void showImageSourceDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.camera_alt),
+                    iconSize: 40,
+                    onPressed: () async {
+                      
+                      File? temp = await FunctionImage.cameraPicker();
+                      if (temp != null) {
+                        setState(() {
+                          pickedImage = temp;
+                        });
+                      }
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Text("Camera"),
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.photo),
+                    iconSize: 40,
+                    onPressed: () async {
+                      // Handle gallery action here
+                      
+                      File? temp = await FunctionImage.galleryPicker();
+                      if (temp != null) {
+                        setState(() {
+                          pickedImage = temp;
+                        });
+                      }
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Text("Gallery"),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -304,9 +422,8 @@ Widget buildHistoryList() {
       Image.asset(AppAssets.imagefilme3),
     ],
   );
-  
-
 }
+
 // String getImageProfile(int? avatarId) {
 //     if (avatarId == null) {
 //       return AppAssets.Vector1;

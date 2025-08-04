@@ -59,26 +59,47 @@ class _BrowseTabState extends State<BrowseTab> {
     fetchMoviesForSelectedGenre();
 
   }
+Future<void> fetchMoviesForSelectedGenre() async {
+  if (!mounted) return;
+  setState(() {
+    isLoading = true;
+  });
 
-  Future<void> fetchMoviesForSelectedGenre() async {
+  try {
+    final response = await ApiManager.getMovies(genre: genres[selectedIndex]);
+    
+    if (!mounted) return; 
     setState(() {
-      isLoading = true;
+      movieResponse = response;
+      isLoading = false;
     });
-
-    try {
-      final response =
-      await ApiManager.getMovies(genre: genres[selectedIndex]);
-      setState(() {
-        movieResponse = response;
-        isLoading = false;
-      });
-    } catch (e) {
-      // handle error
-      setState(() {
-        isLoading = false;
-      });
-    }
+  } catch (e) {
+    if (!mounted) return;
+    setState(() {
+      isLoading = false;
+    });
   }
+}
+
+  // Future<void> fetchMoviesForSelectedGenre() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+
+  //   try {
+  //     final response =
+  //     await ApiManager.getMovies(genre: genres[selectedIndex]);
+  //     setState(() {
+  //       movieResponse = response;
+  //       isLoading = false;
+  //     });
+  //   } catch (e) {
+  //     // handle error
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
