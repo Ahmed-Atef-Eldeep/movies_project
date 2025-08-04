@@ -113,6 +113,8 @@ class ApiManager {
       ApiConstants.baseUrl2,
       endPoints.login,
     );
+      print("📡 Calling login API: $url");
+
 
     try {
       final response = await http.post(
@@ -127,6 +129,7 @@ class ApiManager {
       );
       print("Status: ${response.statusCode}");
       print("Response body: ${response.body}");
+      
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         return LoginResponse.fromJson(json);
@@ -134,9 +137,12 @@ class ApiManager {
         print("Error: ${response.statusCode}");
         return null;
       }
-    } catch (e) {
-      print("Exception occurred: $e");
-      return null;
+    } catch (e , stack) {
+      // print("Exception occurred: $e");
+      // return null;
+        print("❌ Exception occurred in login(): $e");
+  print("📛 Stack trace: $stack");
+  return null;
     }
   }
 
@@ -163,9 +169,10 @@ class ApiManager {
           'password': password,
           'name': name,
           'phone': phone,
-          'avatarId': avatarId,
+          'avaterId': avatarId,
           'confirmPassword': confirmPassword,
         }),
+        
       );
       print("Status: ${response.statusCode}");
       print("Response body: ${response.body}");

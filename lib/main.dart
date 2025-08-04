@@ -14,7 +14,6 @@ import 'package:movies_project/Ui/home/Taps/Authentication/login_Screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:movies_project/Ui/home/Taps/profile/home_profile_tab.dart';
 import 'package:provider/provider.dart';
-
 import 'Ui/home/Taps/bottom_navigation_bar/movie_details.dart';
 import 'Ui/home/Taps/profile/update_profile_tab.dart';
 
